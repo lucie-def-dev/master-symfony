@@ -4,4 +4,43 @@
 
 {% block body %}
 <h1>Bienvenue</h1>
+
+<h2>Nos produits les plus vendus :</h2>
+
+
+
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }} </h5>
+                    <p>{{ product.description }}</p>
+                    <p><strong>{{ product.price / 100 }} €</strong></p>
+                    <a href="{{ path('product_show', { slug: product.slug }) }}"
+                       class="btn btn-outline-primary btn-sm"
+                    >
+                        Voir le produit
+                    </a>
+                </div>
+            </div>
+        </div>      
+        {% endfor %}         
+    </div>
+
+    
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ favorite_product.name }}</h5>
+                        <p><strong>{{ favorite_product.price }} €</strong></p>
+                         <a href="{{ path('product_show', { slug: favorite_product.slug }) }}"
+                                            class="btn btn-outline-primary btn-sm">
+                                Voir le produit</a>
+                </div>
+            </div>
+        </div>                
+    </div>
+
 {% endblock %}

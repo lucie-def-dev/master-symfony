@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,20 +12,16 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function index()
+    public function index(ProductRepository $productRepository)
     {
-        $product= new Product();
-        $product->setName('iphone');
-        $product->setDescription('Mon produit');
-        $product->setPrice('999');
+        $products = $productRepository->findAllGreatherThanPrice(700);
+        $favoriteProduct = $productRepository->findOneGreatherThanprice(800);
 
+        dump($products);
 
-        $entityManager = $this->getDoctrine()->getManager();
-        // persist = insert
-        $entityManager->persist($product);
-        // flush execute la requête
-        // $entityManager->flush();
-
-        return $this->render('index/homepage.html.twig');
+        return $this->render('index/homepage.html.twig' , [
+            'products'=>$products,
+            'favorite_product' => $favoriteProduct,
+        ]);
     }
 }
